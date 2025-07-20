@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+using namespace std;
+
+vector<int> longestConsecutiveSequence(vector<int>& nums) {
+    unordered_set<int> s(nums.begin(), nums.end());
+    int longest = 0;
+    vector<int> longestSeq;
+
+    for (int num : nums) {
+        // Check if this is the start of a sequence
+        if (!s.count(num - 1)) {
+            int current = num;
+            vector<int> tempSeq;
+
+            while (s.count(current)) {
+                tempSeq.push_back(current);
+                current++;
+            }
+
+            if (tempSeq.size() > longest) {
+                longest = tempSeq.size();
+                longestSeq = tempSeq;
+            }
+        }
+    }
+
+    sort(longestSeq.begin(), longestSeq.end());  // Ensure sorted output
+    return longestSeq;
+}
